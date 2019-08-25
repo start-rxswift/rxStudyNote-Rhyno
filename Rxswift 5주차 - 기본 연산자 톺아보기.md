@@ -25,7 +25,7 @@
 
 ![연산자 계층도](./image/OperatorHierachy.png)
 
-  
+![Observable 구조도](./image/ObservableBlueprint.png)  
 
 ---
 
@@ -33,83 +33,86 @@
 
   1. 생성 연산자
 
-     1. from() : 배열을 인자로 받아 해당 원소를 하나씩 이벤트로 내보내는 Observable을 만든다. 
+     1. from : 배열을 인자로 받아 해당 원소를 하나씩 이벤트로 내보내는 Observable을 만든다. 
 
-     2. of() : 1개 이상의 인자를 받아 해당 인자를 하나씩 이벤트로 내보내는 Observable을 만든다. 
+     2. of : 1개 이상의 인자를 받아 해당 인자를 하나씩 이벤트로 내보내는 Observable을 만든다. 
 
         ![from](./image/from.png) 
 
      3. create : 이벤트를 일일이 지정해서 만들어준다.  
+     
+     4. 
 
         ![create](./image/create.png)
 
-     4. deferred: 팩토리 클로저를 인자로 받아, 구독시마다 외부 조건에 따라 다른 Observable을 반환하도록 한다. 즉, 실제 받아볼 Observable은 구독 시점에서야 비로소 결정된다.
+     5. deferred: 팩토리 클로저를 인자로 받아, 구독시마다 외부 조건에 따라 다른 Observable을 반환하도록 한다. 즉, 실제 받아볼 Observable은 구독 시점에서야 비로소 결정된다.
 
         ![deferred](./image/deferred.png)
+     6.   
 
   2. 여과 연산자
 
-     1. filter() : 조건식 클로저를 인자로 넘겨, 해당 조건식을 만족하는 이벤트만 넘긴다.
+     1. filter : 조건식 클로저를 인자로 넘겨, 해당 조건식을 만족하는 이벤트만 넘긴다.
 
         ![filter](./image/filter.png)
 
-     2. debounce() : 이벤트가 발생하고 일정 시간 내에 다른 이벤트가 발생하지 않아야만 해당 이벤트를 넘긴다.
+     2. debounce : 이벤트가 발생하고 일정 시간 내에 다른 이벤트가 발생하지 않아야만 해당 이벤트를 넘긴다.
 
         ![debounce](./image/debounce.png)
 
-     3. throttle() : 특정 시간동안 발생한 이벤트 중 가장 최근 이벤트만 넘긴다.
+     3. throttle : 특정 시간동안 발생한 이벤트 중 가장 최근 이벤트만 넘긴다.
 
         ![throttle](./image/throttle.png)
 
-     4. take() : 첫 n개의 이벤트만 넘긴다. 
+     4. take : 첫 n개의 이벤트만 넘긴다. 
 
         ![take](./image/take.png)
 
-     5. skip() : 첫 n개의 이벤트를 무시한다.
+     5. skip : 첫 n개의 이벤트를 무시한다.
 
         ![skip](./image/skip.png)
 
   3. 변환 연산자
 
-     1. Map() : T->U 형태의 변환 클로저를 받아 Observable이 방출하는 값의 타입을 바꿔준다. (Observable<T> -> Observable<U>)
+     1. Map : T->U 형태의 변환 클로저를 받아 Observable이 방출하는 값의 타입을 바꿔준다. (Observable<T> -> Observable<U>)
 
         ![Map](./image/Map.png)
 
      2.  flatmap : map과 비슷하지만, 변환 클로져의 형태가 T->Observable<U>라는 점에서 차이가 있다.  이 중간 Observable은 하나의 Observable로 합쳐지게 된다.(Observable<T> -> Observable<U>, 혹은 Observable<Observable<T>> -> Observable<U>)
 
-        1. flatmapLatest() : Observable 이 합쳐지는 단계에서, 이전 Observable 발행이 끝나지 않았는데 새로운 Observable이 들어오면 현재 Observable을 멈추고 새로 들어온 Observable을 발행한다.
-        2. flatmapFirst() : Observable이 합쳐질 때, 이전 Observable 발행이 끝나지 않았는데 새로운 Observable 이 들어오면 새로 들어온 Observable은 무시된다. 이전 Observable이 종료해야만 새로운 Observable을 받아들일 수 있다.
+        1. flatmapLatest : Observable 이 합쳐지는 단계에서, 이전 Observable 발행이 끝나지 않았는데 새로운 Observable이 들어오면 현재 Observable을 멈추고 새로 들어온 Observable을 발행한다.
+        2. flatmapFirst : Observable이 합쳐질 때, 이전 Observable 발행이 끝나지 않았는데 새로운 Observable 이 들어오면 새로 들어온 Observable은 무시된다. 이전 Observable이 종료해야만 새로운 Observable을 받아들일 수 있다.
 
         ![flatMap](./image/flatMap.png)
 
-     3. GroupBy() : 키 셀렉터 클로저를 인자로 받아, [키:Observable] 형태로 반환한다. 같은 키를 반환하는 원소는 같은 Observable로 보내진다. 종료 이벤트는 동시에 받게 된다.
+     3. GroupBy : 키 셀렉터 클로저를 인자로 받아, [키:Observable] 형태로 반환한다. 같은 키를 반환하는 원소는 같은 Observable로 보내진다. 종료 이벤트는 동시에 받게 된다.
 
          ![GroupBy](./image/GroupBy.png)
 
-     4. Buffer() : 지정한 시간 동안 나온 값들을 배열에 담아 내보낸다. (Observable<T> -> Observable<[T]>)![Buffer](./image/Buffer.png)
+     4. Buffer : 지정한 시간 동안 나온 값들을 배열에 담아 내보낸다. (Observable<T> -> Observable<[T]>)![Buffer](./image/Buffer.png)
 
         
 
-     5. Window() : Buffer와 비슷하나, 배열대신 Observable 로 내보낸다.![window](./image/window.png)
+     5. Window : Buffer와 비슷하나, 배열대신 Observable 로 내보낸다.![window](./image/window.png)
 
   4. 합성 연산자
 
-     1. merge() : Observable을 내부 순서를 유지한 채로 합친다.
+     1. merge : Observable을 내부 순서를 유지한 채로 합친다.
 
         ![merge](./image/merge.png)
 
-     2. CombineLatest() : Observable 이 방출한 가장 최근 값을 resultSelector 클로져를 이용하 하나의 값으로 만들어 낸다.
+     2. CombineLatest : Observable 이 방출한 가장 최근 값을 resultSelector 클로져를 이용하 하나의 값으로 만들어 낸다.
 
         ![CombineLatest](./image/CombineLatest.png)
 
-     3. startWith(): Observable 앞에 초기값을 추가한다.
+     3. startWith: Observable 앞에 초기값을 추가한다.
 
         ![startWith](./image/startWith.png)
 
-     4.  zip() : Observable이 방출하는 값들을 튜플로 묶어서 내보낸다. 튜플로 묶을 수 없는 값들은 버려진다.
+     4.  zip : Observable이 방출하는 값들을 튜플로 묶어서 내보낸다. 튜플로 묶을 수 없는 값들은 버려진다.
 
         ![zip](./image/zip.png)
 
-     5. SwitchLatest() : Observable을 내보내는 Observable에서 적용가능한 연산자로, 새로운 Observable 이 방출될 때 마다, 기존 Observable을 구독 해제하고 새로운 Observable을 구독하는 Observable 을 만든다.
+     5. SwitchLatest : Observable을 내보내는 Observable에서 적용가능한 연산자로, 새로운 Observable 이 방출될 때 마다, 기존 Observable을 구독 해제하고 새로운 Observable을 구독하는 Observable 을 만든다.
 
         >  flatmapLatest = map + switchLatest이다.
