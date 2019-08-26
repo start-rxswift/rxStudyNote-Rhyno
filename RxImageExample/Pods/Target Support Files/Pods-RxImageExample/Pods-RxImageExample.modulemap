@@ -1,0 +1,6 @@
+framework module Pods_RxImageExample {
+  umbrella header "Pods-RxImageExample-umbrella.h"
+
+  export *
+  module * { export * }
+}
